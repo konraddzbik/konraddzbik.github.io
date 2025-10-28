@@ -1,5 +1,6 @@
 remote_theme: pages-themes/cayman@v0.2.0
-description: Bookmark this to keep an eye on my project updates!
+title: Konrad Dżbik homepage
+description: Bookmark this to keep an eye on my project updates! Will be improved over time with history, links and articles
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have onetitle: Octocat's homepage
 
