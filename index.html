@@ -1,0 +1,16 @@
+<script>
+  fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@yourusername')
+    .then(response => response.json())
+    .then(data => {
+      const articlesDiv = document.getElementById('medium-articles');
+      data.items.slice(0, 5).forEach(item => {  // Show top 5
+        articlesDiv.innerHTML += `
+          <div class="article-card">
+            <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+            <p>${item.description.substring(0, 150)}...</p>
+            <small>Published: ${new Date(item.pubDate).toLocaleDateString()}</small>
+          </div>
+        `;
+      });
+    });
+</script>
