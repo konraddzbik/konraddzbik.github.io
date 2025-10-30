@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-theme">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -12,76 +12,141 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>llama</text></svg>">
 
   <style>
-    .badge-card, .article-card, .project-card {
+    /* === LIGHT THEME === */
+    .light-theme {
+      background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+      color: #1e293b;
+    }
+    .light-theme .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .light-theme .header-bg {
+      background: linear-gradient(to right, #6366f1, #8b5cf6);
+    }
+    .light-theme .text-primary { color: #1e293b; }
+    .light-theme .text-secondary { color: #475569; }
+    .light-theme .text-muted { color: #94a3b8; }
+
+    /* === DARK THEME === */
+    .dark-theme {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: #e2e8f0;
+    }
+    .dark-theme .glass {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .dark-theme .header-bg {
+      background: linear-gradient(to right, #4f46e5, #7c3aed);
+    }
+    .dark-theme .text-primary { color: #e2e8f0; }
+    .dark-theme .text-secondary { color: #cbd5e1; }
+    .dark-theme .text-muted { color: #64748b; }
+
+    /* === SHARED === */
+    .glass {
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      border-radius: 1rem;
     }
-    .badge-card:hover, .article-card:hover, .project-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 30px rgba(0,0,0,0.12);
+    .glass:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
-    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .theme-transition {
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+    html, body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 font-sans min-h-screen">
+<body class="theme-transition">
+
+  <!-- Navbar with Theme Switch -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-700">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="text-lg font-bold text-primary">KD</a>
+      <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-primary hover:bg-gray-300 dark:hover:bg-slate-600 transition">
+        <svg id="sun-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+        <svg id="moon-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+      </button>
+    </div>
+  </nav>
 
   <!-- Header -->
-  <header class="bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-700 text-white py-20">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <h1 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">Konrad Dzbik</h1>
+  <header class="pt-32 pb-20 text-center header-bg text-white">
+    <div class="max-w-5xl mx-auto px-6">
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4">Konrad Dzbik</h1>
       <p class="text-xl opacity-90">Technical Manager • AI Developer • LLMs • NLP</p>
-      <div class="mt-8 flex justify-center space-x-6 text-sm md:text-base">
-        <a href="https://github.com/konraddzbik" class="hover:underline font-medium">GitHub</a>
-        <a href="https://medium.com/@dzbik.konrad" class="hover:underline font-medium">Medium</a>
-        <a href="mailto:dzbik.konrad@email.com" class="hover:underline font-medium">Email</a>
+      <div class="mt-10 flex justify-center space-x-8 text-sm md:text-base">
+        <a href="https://github.com/konraddzbik" class="hover:underline">GitHub</a>
+        <a href="https://medium.com/@dzbik.konrad" class="hover:underline">Medium</a>
+        <a href="mailto:dzbik.konrad@email.com" class="hover:underline">Email</a>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-5xl mx-auto px-6 py-16">
+  <main class="max-w-5xl mx-auto px-6 py-16 space-y-24">
 
     <!-- Intro -->
-    <section class="text-center mb-20">
-      <p class="text-lg leading-relaxed max-w-3xl mx-auto">
-        I build <strong>privacy-first AI tools</strong> and explore <strong>Polish language models</strong> like <em>Bielik</em>.
+    <section class="text-center max-w-3xl mx-auto">
+      <p class="text-lg leading-relaxed text-secondary">
+        I build <strong class="text-primary">privacy-first AI tools</strong> and explore <strong class="text-primary">Polish language models</strong> like <em>Bielik</em>.
       </p>
     </section>
 
-    <!-- Projects Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">Latest GitHub Projects</h2>
+    <!-- GitHub Projects -->
+    <section>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Latest GitHub Projects</h2>
       <div id="projects" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div class="text-center text-gray-500 py-12">Loading projects...</div>
+        <div class="text-center text-muted py-12">Loading projects...</div>
       </div>
     </section>
 
-    <!-- Articles Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">Latest Articles</h2>
+    <!-- Medium Articles -->
+    <section>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Latest Articles</h2>
       <div id="articles" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div class="text-center text-gray-500 py-12">Loading articles...</div>
+        <div class="text-center text-muted py-12">Loading articles...</div>
       </div>
     </section>
 
-    <!-- Certifications Section -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">Certifications</h2>
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div class="badge-card bg-white/80 rounded-xl overflow-hidden shadow-lg border border-gray-200">
-          <a href="https://www.credly.com/badges/77e8db65-0ba0-4b7d-b212-bf4f26c966db" target="_blank" class="block p-6 text-center">
+    <!-- Certifications -->
+    <section>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Certifications</h2>
+      <div class="flex justify-center">
+        <div class="glass rounded-xl p-6 max-w-xs text-center">
+          <a href="https://www.credly.com/badges/77e8db65-0ba0-4b7d-b212-bf4f26c966db" target="_blank" class="block">
             <img 
               src="https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png" 
               alt="Professional Cloud Architect" 
-              class="w-full max-w-xs mx-auto rounded-lg shadow-md"
+              class="w-full rounded-lg"
             />
-            <h3 class="mt-4 text-lg font-semibold text-indigo-700">Professional Cloud Architect</h3>
-            <p class="text-sm text-gray-500 mt-1">Issued by Google Cloud</p>
+            <h3 class="mt-4 text-lg font-semibold text-indigo-600 dark:text-indigo-300">Professional Cloud Architect</h3>
+            <p class="text-sm text-secondary mt-1">Google Cloud</p>
           </a>
         </div>
       </div>
-      <p class="text-center mt-8 text-sm text-gray-600">
+      <p class="text-center mt-8 text-sm text-secondary">
         All badges are <strong>verified on Credly</strong> — click to validate.
       </p>
     </section>
@@ -89,111 +154,99 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-10 mt-20">
-    <div class="max-w-5xl mx-auto px-6 text-center text-sm">
-      © 2025 Konrad Dzbik • Built with <span class="text-red-400">heart</span> and <span class="text-blue-400">Tailwind</span>
+  <footer class="bg-gray-100 dark:bg-slate-900 py-10 mt-20">
+    <div class="max-w-5xl mx-auto px-6 text-center text-sm text-secondary">
+      © 2025 Konrad Dzbik • Built with <span class="text-pink-500">heart</span> and <span class="text-blue-500">Tailwind</span>
     </div>
   </footer>
 
-  <!-- GitHub Projects Script -->
+  <!-- Theme Switcher -->
   <script>
-    const GITHUB_USER = "konraddzbik";
-    const GITHUB_API = `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=6`;
+    const toggle = document.getElementById('theme-toggle');
+    const sun = document.getElementById('sun-icon');
+    const moon = document.getElementById('moon-icon');
+    const html = document.documentElement;
 
-    fetch(GITHUB_API)
-      .then(r => r.json())
-      .then(repos => {
-        const container = document.getElementById("projects");
-        container.innerHTML = "";
+    // Load saved theme
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      html.className = saved;
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      html.className = 'dark-theme';
+    }
 
-        if (!repos || repos.length === 0) {
-          container.innerHTML = "<p class='col-span-full text-center text-gray-500'>No public repos found.</p>";
-          return;
-        }
+    function updateIcons() {
+      if (html.classList.contains('dark-theme')) {
+        sun.classList.remove('hidden');
+        moon.classList.add('hidden');
+      } else {
+        sun.classList.add('hidden');
+        moon.classList.remove('hidden');
+      }
+    }
+    updateIcons();
 
-        repos.forEach(repo => {
-          const card = document.createElement("a");
-          card.href = repo.html_url;
-          card.target = "_blank";
-          card.className = "project-card block bg-white/80 rounded-xl overflow-hidden shadow-md hover:shadow-xl";
-
-          const langColor = {
-            JavaScript: "bg-yellow-400",
-            Python: "bg-blue-500",
-            HTML: "bg-orange-500",
-            CSS: "bg-purple-500",
-            Shell: "bg-green-500"
-          }[repo.language] || "bg-gray-400";
-
-          card.innerHTML = `
-            <div class="p-5">
-              <h3 class="font-bold text-lg mb-1 line-clamp-2">${repo.name}</h3>
-              <p class="text-sm text-gray-600 mb-3 line-clamp-3">${repo.description || "No description"}</p>
-              <div class="flex items-center justify-between text-xs text-gray-500">
-                <span class="flex items-center">
-                  <span class="w-3 h-3 ${langColor} rounded-full mr-1"></span> ${repo.language || "Unknown"}
-                </span>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.51a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.695Z"/></svg>
-                  ${repo.stargazers_count}
-                </span>
-              </div>
-            </div>
-          `;
-          container.appendChild(card);
-        });
-      })
-      .catch(err => {
-        document.getElementById("projects").innerHTML = 
-          `<p class="col-span-full text-center text-red-500">Failed to load projects.</p>`;
-        console.error(err);
-      });
+    toggle.addEventListener('click', () => {
+      if (html.classList.contains('light-theme')) {
+        html.className = 'dark-theme';
+        localStorage.setItem('theme', 'dark-theme');
+      } else {
+        html.className = 'light-theme';
+        localStorage.setItem('theme', 'light-theme');
+      }
+      updateIcons();
+    });
   </script>
 
-  <!-- Medium RSS Feed Script -->
+  <!-- GitHub Projects (Shortened Description) -->
   <script>
-    const MEDIUM_USER = "@dzbik.konrad"; 
-    const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/${MEDIUM_USER}`;
-
-    fetch(API_URL)
+    fetch('https://api.github.com/users/konraddzbik/repos?sort=updated&per_page=6')
       .then(r => r.json())
-      .then(data => {
-        const container = document.getElementById("articles");
-        container.innerHTML = "";
-
-        if (!data.items || data.items.length === 0) {
-          container.innerHTML = "<p class='col-span-full text-center text-gray-500'>No articles found.</p>";
-          return;
-        }
-
-        data.items.slice(0, 6).forEach(item => {
-          const card = document.createElement("a");
-          card.href = item.link;
-          card.target = "_blank";
-          card.className = "article-card block bg-white/80 rounded-xl overflow-hidden shadow-md hover:shadow-xl";
-
-          const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
-          const imgSrc = imgMatch ? imgMatch[1] : "https://via.placeholder.com/400x200?text=AI";
-
-          card.innerHTML = `
-            <img src="${imgSrc}" alt="${item.title}" class="w-full h-48 object-cover">
-            <div class="p-5">
-              <h3 class="font-semibold text-lg mb-2 line-clamp-2">${item.title}</h3>
-              <p class="text-sm text-gray-600 mb-3 line-clamp-3">${item.description.replace(/<[^>]+>/g, '').substring(0, 130)}...</p>
-              <p class="text-xs text-gray-500">
-                ${new Date(item.pubDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-              </p>
-            </div>
-          `;
-          container.appendChild(card);
+      .then(repos => {
+        const c = document.getElementById('projects');
+        c.innerHTML = '';
+        repos.forEach(r => {
+          const color = { JavaScript: 'bg-yellow-400', Python: 'bg-blue-500', HTML: 'bg-orange-500' }[r.language] || 'bg-gray-400';
+          c.innerHTML += `
+            <a href="${r.html_url}" target="_blank" class="glass block p-5 rounded-xl">
+              <h3 class="font-bold text-lg text-primary line-clamp-2">${r.name}</h3>
+              <p class="text-sm text-secondary mt-1 line-clamp-2">${r.description || 'No description'}</p>
+              <div class="flex justify-between mt-3 text-xs text-muted">
+                <span class="flex items-center"><span class="w-3 h-3 ${color} rounded-full mr-1"></span>${r.language || '—'}</span>
+                <span>Stars: ${r.stargazers_count}</span>
+              </div>
+            </a>`;
         });
       })
-      .catch(err => {
-        document.getElementById("articles").innerHTML = 
-          `<p class="col-span-full text-center text-red-500">Failed to load articles.</p>`;
-        console.error(err);
-      });
+      .catch(() => c.innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load projects.</p>");
+  </script>
+
+  <!-- Medium Articles (Full Description Restored) -->
+  <script>
+    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@dzbik.konrad')
+      .then(r => r.json())
+      .then(d => {
+        const c = document.getElementById('articles');
+        c.innerHTML = '';
+        d.items.slice(0, 6).forEach(i => {
+          const img = i.description.match(/src="([^"]+)"/)?.[1] || 'https://via.placeholder.com/400x200?text=AI';
+          const cleanDesc = i.description.replace(/<[^>]+>/g, '').trim();
+          c.innerHTML += `
+            <a href="${i.link}" target="_blank" class="glass block rounded-xl overflow-hidden">
+              <img src="${img}" class="w-full h-48 object-cover">
+              <div class="p-5">
+                <h3 class="font-semibold text-lg text-primary line-clamp-2">${i.title}</h3>
+                <p class="text-sm text-secondary mt-2 line-clamp-3">${cleanDesc || 'No description'}</p>
+                <p class="text-xs text-muted mt-3">${new Date(i.pubDate).toLocaleDateString()}</p>
+              </div>
+            </a>`;
+        });
+      })
+      .catch(() => c.innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load articles.</p>");
   </script>
 
 </body>
 </html>
+
+202
+204- wylopgowuje pacjentke po kilku minutach 
