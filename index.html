@@ -7,6 +7,7 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>llama</text></svg>">
@@ -22,12 +23,12 @@
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.6);
     }
-    .light-theme .header-bg {
-      background: linear-gradient(to right, #6366f1, #8b5cf6);
-    }
     .light-theme .text-primary { color: #1e293b; }
     .light-theme .text-secondary { color: #475569; }
     .light-theme .text-muted { color: #94a3b8; }
+    .light-theme .nav-bg { background: rgba(255, 255, 255, 0.8); }
+    .light-theme .nav-border { border-color: #e5e7eb; }
+    .light-theme .mobile-menu-bg { background: rgba(255, 255, 255, 0.95); }
 
     /* === DARK THEME === */
     .dark-theme {
@@ -39,22 +40,157 @@
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
-    .dark-theme .header-bg {
-      background: linear-gradient(to right, #4f46e5, #7c3aed);
-    }
     .dark-theme .text-primary { color: #e2e8f0; }
     .dark-theme .text-secondary { color: #cbd5e1; }
     .dark-theme .text-muted { color: #64748b; }
+    .dark-theme .nav-bg { background: rgba(15, 23, 42, 0.8); }
+    .dark-theme .nav-border { border-color: #334155; }
+    .dark-theme .mobile-menu-bg { background: rgba(15, 23, 42, 0.95); }
 
     /* === SHARED === */
+    html { scroll-behavior: smooth; }
+    html, body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
     .glass {
       transition: all 0.3s ease;
       border-radius: 1rem;
     }
     .glass:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
     }
+
+    .theme-transition {
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* === ANIMATED HERO GRADIENT === */
+    @keyframes heroGradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero-gradient {
+      background: linear-gradient(-45deg, #6366f1, #8b5cf6, #0d9488, #6366f1);
+      background-size: 300% 300%;
+      animation: heroGradient 10s ease infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-gradient::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-gradient > * { position: relative; z-index: 2; }
+    .hero-cursor-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: soft-light;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* === HEADING ACCENT === */
+    .section-heading {
+      position: relative;
+      display: inline-block;
+    }
+    .section-heading::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(to right, #6366f1, #8b5cf6);
+      margin: 0.75rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === SECTION DIVIDER === */
+    .section-divider {
+      width: 60%;
+      max-width: 400px;
+      height: 1px;
+      margin: 0 auto;
+      background: linear-gradient(to right, transparent, #6366f1, transparent);
+      opacity: 0.3;
+    }
+
+    /* === ARTICLE IMAGE HOVER === */
+    .article-card img {
+      transition: transform 0.4s ease;
+    }
+    .article-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* === WORKSHOP GLOW === */
+    .workshop-card:hover {
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+    }
+
+    /* === CERT GLOW === */
+    .cert-card:hover {
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
+    }
+    .cert-card:hover img {
+      filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.15));
+    }
+    .cert-card img {
+      transition: filter 0.3s ease;
+    }
+
+    /* === SKELETON LOADER === */
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .skeleton {
+      background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 0.75rem;
+    }
+    .dark-theme .skeleton {
+      background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+      background-size: 800px 100%;
+    }
+
+    /* === STAT CARD === */
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* === LINE CLAMP === */
     .line-clamp-2 {
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -67,18 +203,8 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .theme-transition {
-      transition: background 0.5s ease, color 0.5s ease;
-    }
-    html, body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-    }
-    .cert-logo { width: 64px; height: 64px; }
-    .cert-photo { width: 96px; height: 96px; }
 
-    /* Eskadra Bielik */
+    /* === ESKADRA BIELIK === */
     .post-linkedin {
       margin-top: 1.5rem;
       padding: 1rem 1.5rem;
@@ -87,31 +213,145 @@
     }
     .light-theme .post-linkedin { background: rgba(99,102,241,0.06); }
     .dark-theme .post-linkedin { background: rgba(99,102,241,0.12); }
+
+    /* === NAV ACTIVE LINK === */
+    .nav-link {
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: #6366f1;
+      border-radius: 1px;
+      transition: width 0.3s ease;
+    }
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* === HAMBURGER === */
+    .hamburger-line {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .hamburger-open .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger-open .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-open .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* === MOBILE MENU === */
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .mobile-menu.open {
+      max-height: 300px;
+    }
+
+    /* === BACKGROUND BLURS === */
+    .bg-blur-shape {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(80px);
+    }
+    .light-theme .bg-blur-1 { background: rgba(99, 102, 241, 0.08); }
+    .light-theme .bg-blur-2 { background: rgba(139, 92, 246, 0.06); }
+    .light-theme .bg-blur-3 { background: rgba(13, 148, 136, 0.05); }
+    .dark-theme .bg-blur-1 { background: rgba(99, 102, 241, 0.1); }
+    .dark-theme .bg-blur-2 { background: rgba(139, 92, 246, 0.08); }
+    .dark-theme .bg-blur-3 { background: rgba(13, 148, 136, 0.06); }
+
+    /* === FOOTER GRADIENT BORDER === */
+    .footer-border {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #6366f1, #8b5cf6, transparent);
+    }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="theme-transition">
 
-  <!-- Navbar with Theme Switch -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-700">
+  <!-- Background Blurs -->
+  <div class="bg-blur-shape bg-blur-1" style="width:600px;height:600px;top:10%;left:-10%"></div>
+  <div class="bg-blur-shape bg-blur-2" style="width:500px;height:500px;top:50%;right:-15%"></div>
+  <div class="bg-blur-shape bg-blur-3" style="width:400px;height:400px;top:80%;left:20%"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 nav-bg backdrop-blur-md border-b nav-border">
     <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
       <a href="#" class="text-lg font-bold text-primary">KD</a>
-      <button id="theme-toggle" class="p-2 rounded-lg bg-gray-200 dark:bg-slate-700 text-primary hover:bg-gray-300 dark:hover:bg-slate-600 transition">
-        <svg id="sun-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
-        <svg id="moon-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
-      </button>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center space-x-6 text-sm">
+        <a href="#projects" class="nav-link text-secondary hover:text-primary">Projects</a>
+        <a href="#articles" class="nav-link text-secondary hover:text-primary">Articles</a>
+        <a href="#eskadra" class="nav-link text-secondary hover:text-primary">Eskadra</a>
+        <a href="#open-maic" class="nav-link text-secondary hover:text-primary">Open mAIc</a>
+        <a href="#certifications" class="nav-link text-secondary hover:text-primary">Certifications</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="p-2 rounded-lg text-primary transition" style="background: rgba(128,128,128,0.15);">
+          <svg id="sun-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+          <svg id="moon-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        </button>
+
+        <!-- Hamburger (mobile) -->
+        <button id="hamburger" class="md:hidden p-2 rounded-lg text-primary" style="background: rgba(128,128,128,0.15);">
+          <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+            <line class="hamburger-line" x1="3" y1="5" x2="17" y2="5"/>
+            <line class="hamburger-line" x1="3" y1="10" x2="17" y2="10"/>
+            <line class="hamburger-line" x1="3" y1="15" x2="17" y2="15"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu md:hidden mobile-menu-bg border-t nav-border">
+      <div class="max-w-5xl mx-auto px-6 py-3 flex flex-col space-y-3 text-sm">
+        <a href="#projects" class="nav-link text-secondary hover:text-primary py-1">Projects</a>
+        <a href="#articles" class="nav-link text-secondary hover:text-primary py-1">Articles</a>
+        <a href="#eskadra" class="nav-link text-secondary hover:text-primary py-1">Eskadra</a>
+        <a href="#open-maic" class="nav-link text-secondary hover:text-primary py-1">Open mAIc</a>
+        <a href="#certifications" class="nav-link text-secondary hover:text-primary py-1">Certifications</a>
+      </div>
     </div>
   </nav>
 
-  <!-- Header -->
-  <header class="pt-32 pb-20 text-center header-bg text-white">
+  <!-- Hero -->
+  <header class="hero-gradient pt-32 pb-24 text-center text-white">
+    <div id="hero-glow" class="hero-cursor-glow"></div>
     <div class="max-w-5xl mx-auto px-6">
-      <h1 class="text-5xl md:text-7xl font-extrabold mb-4">Konrad Dżbik</h1>
-      <p class="text-xl opacity-90">Head of AI @ CSHARK • PhD Candidate in AI for Management • RAG, Agentic Systems, RegTech</p>
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="text-shadow: 0 0 60px rgba(255,255,255,0.15);">Konrad Dżbik</h1>
+      <p class="text-xl font-light opacity-90 max-w-2xl mx-auto">Head of AI @ CSHARK · PhD Candidate in AI for Management · RAG, Agentic Systems, RegTech</p>
       <div class="mt-10 flex justify-center space-x-8 text-sm md:text-base">
-        <a href="https://github.com/konraddzbik" class="hover:underline">GitHub</a>
-        <a href="https://medium.com/@dzbik.konrad" class="hover:underline">Medium</a>
-        <a href="mailto:dzbik.konrad@email.com" class="hover:underline">Email</a>
+        <a href="https://github.com/konraddzbik" class="hover:opacity-80 transition-opacity flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://medium.com/@dzbik.konrad" class="hover:opacity-80 transition-opacity flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+          Medium
+        </a>
+        <a href="mailto:dzbik.konrad@email.com" class="hover:opacity-80 transition-opacity flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Email
+        </a>
       </div>
     </div>
   </header>
@@ -120,40 +360,50 @@
   <main class="max-w-5xl mx-auto px-6 py-16 space-y-24">
 
     <!-- Intro -->
-    <section class="text-center max-w-3xl mx-auto">
-      <p class="text-lg leading-relaxed text-secondary">
+    <section class="text-center max-w-3xl mx-auto reveal">
+      <p class="text-lg leading-loose text-secondary">
         I build <strong class="text-primary">privacy-first AI tools</strong> and explore <strong class="text-primary">Polish language models</strong> like <em>Bielik</em>.
       </p>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- GitHub Projects -->
-    <section>
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Latest GitHub Projects</h2>
-      <div id="projects" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div class="text-center text-muted py-12">Loading projects...</div>
+    <section id="projects">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary reveal"><span class="section-heading">Latest GitHub Projects</span></h2>
+      <div id="projects-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 reveal">
+        <div class="skeleton h-40 p-5"></div>
+        <div class="skeleton h-40 p-5"></div>
+        <div class="skeleton h-40 p-5"></div>
       </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- Medium Articles -->
-    <section>
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Latest Articles</h2>
-      <div id="articles" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div class="text-center text-muted py-12">Loading articles...</div>
+    <section id="articles">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary reveal"><span class="section-heading">Latest Articles</span></h2>
+      <div id="articles-grid" class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 reveal">
+        <div class="skeleton h-72"></div>
+        <div class="skeleton h-72"></div>
+        <div class="skeleton h-72"></div>
       </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- Eskadra Bielik -->
-    <section>
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Eskadra Bielik Workshops</h2>
-      <p class="text-center text-secondary mb-12 max-w-3xl mx-auto">
+    <section id="eskadra">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary reveal"><span class="section-heading">Eskadra Bielik Workshops</span></h2>
+      <p class="text-center text-secondary mb-12 max-w-3xl mx-auto reveal">
         Hands-on workshops as part of the <strong class="text-primary">Eskadra Bielika</strong> initiative (SpeakLeash) —
         building sovereign AI solutions on the Polish Bielik model.
       </p>
 
-      <div class="grid gap-8 md:grid-cols-2">
+      <div class="grid gap-8 md:grid-cols-2 reveal">
 
       <!-- Mission 1 -->
-      <article class="glass rounded-xl p-8">
+      <article class="glass workshop-card rounded-xl p-8">
         <h3 class="text-2xl font-bold text-primary mb-2">Mission 1 — AI Agent on Bielik</h3>
         <p class="text-sm text-muted mb-4">
           <time datetime="2025-12-09">2025-12-09</time> · Wroclaw · hands-on · ~3 hours · free
@@ -180,10 +430,9 @@
       </article>
 
       <!-- Mission 2 -->
-      <article class="glass rounded-xl p-8">
+      <article class="glass workshop-card rounded-xl p-8">
         <h3 class="text-2xl font-bold text-primary mb-2">Mission 2 — Sovereign RAG on Bielik</h3>
         <p class="text-sm text-muted mb-4">
-          <!-- TODO: fill in workshop date -->
           <time datetime="TODO">Date: TBD</time> · hands-on · 3 hours · 30 participants
         </p>
 
@@ -202,7 +451,6 @@
           <li><strong>Side-by-side UI</strong> — Bielik vs Bielik + RAG comparison</li>
         </ul>
 
-        <!-- TODO: replace TODO-linkedin-url-misja2 with the published post URL -->
         <aside class="post-linkedin">
           <p class="text-secondary">Full workshop recap on LinkedIn:</p>
           <a href="TODO-linkedin-url-misja2" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
@@ -215,22 +463,37 @@
 
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- Open mAIc Workshops -->
-    <section>
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Open mAIc Workshops</h2>
-      <p class="text-center text-secondary mb-4 max-w-3xl mx-auto">
+    <section id="open-maic">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary reveal"><span class="section-heading">Open mAIc Workshops</span></h2>
+      <p class="text-center text-secondary mb-6 max-w-3xl mx-auto reveal">
         Hands-on AI workshop series, now a public Wroclaw AI community meetup.
         Mixed audience — developers, testers, PMs, marketing, finance — in one room.
         ~60 min per session, 40% theory, 60% hands-on.
       </p>
-      <p class="text-center text-muted text-sm mb-12">
-        5 workshops delivered · 157+ attendees · +162% growth (#1 → #4)
-      </p>
 
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Stats -->
+      <div id="stats" class="flex flex-wrap justify-center gap-8 mb-12 reveal">
+        <div class="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
+          <div class="stat-number text-primary" data-target="5">0</div>
+          <div class="text-sm text-muted mt-1">workshops</div>
+        </div>
+        <div class="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
+          <div class="stat-number text-primary" data-target="157" data-suffix="+">0</div>
+          <div class="text-sm text-muted mt-1">attendees</div>
+        </div>
+        <div class="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
+          <div class="stat-number" style="color: #10b981;" data-target="162" data-suffix="%" data-prefix="+">0</div>
+          <div class="text-sm text-muted mt-1">growth #1 → #4</div>
+        </div>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 reveal">
 
         <!-- #1 Local AI -->
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7429996272352301056/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7429996272352301056/" target="_blank" rel="noopener noreferrer" class="glass workshop-card block p-5 rounded-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#1</span>
             <h3 class="font-bold text-lg text-primary">Local AI</h3>
@@ -240,7 +503,7 @@
         </a>
 
         <!-- #2 Prompt Engineering -->
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7435022362238156800/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7435022362238156800/" target="_blank" rel="noopener noreferrer" class="glass workshop-card block p-5 rounded-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#2</span>
             <h3 class="font-bold text-lg text-primary">Prompt Engineering</h3>
@@ -250,7 +513,7 @@
         </a>
 
         <!-- #3 Spec Kit / SDD -->
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440099344013500417/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440099344013500417/" target="_blank" rel="noopener noreferrer" class="glass workshop-card block p-5 rounded-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#3</span>
             <h3 class="font-bold text-lg text-primary">Spec Kit / SDD</h3>
@@ -260,7 +523,7 @@
         </a>
 
         <!-- #4 Skills for Claude -->
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445378796406489088/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445378796406489088/" target="_blank" rel="noopener noreferrer" class="glass workshop-card block p-5 rounded-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#4</span>
             <h3 class="font-bold text-lg text-primary">Skills for Claude</h3>
@@ -270,7 +533,7 @@
         </a>
 
         <!-- #5 Claude Code -->
-        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7455309295534927872/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7455309295534927872/" target="_blank" rel="noopener noreferrer" class="glass workshop-card block p-5 rounded-xl">
           <div class="flex items-center gap-2 mb-2">
             <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#5</span>
             <h3 class="font-bold text-lg text-primary">Claude Code</h3>
@@ -291,13 +554,15 @@
       </div>
     </section>
 
+    <div class="section-divider"></div>
+
     <!-- Certifications -->
-    <section>
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Certifications</h2>
-      <div class="grid gap-8 md:grid-cols-2 justify-items-center">
+    <section id="certifications">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary reveal"><span class="section-heading">Certifications</span></h2>
+      <div class="grid gap-8 md:grid-cols-2 justify-items-center reveal">
 
         <!-- Google Cloud Cert -->
-        <div class="glass rounded-xl p-6 max-w-sm text-center w-full">
+        <div class="glass cert-card rounded-xl p-6 max-w-sm text-center w-full">
           <a href="https://www.credly.com/badges/77e8db65-0ba0-4b7d-b212-bf4f26c966db" target="_blank" class="block">
             <img
               src="https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png"
@@ -310,7 +575,7 @@
         </div>
 
         <!-- Eskadra Bielika Cert -->
-        <div class="glass rounded-xl p-6 max-w-sm text-center w-full">
+        <div class="glass cert-card rounded-xl p-6 max-w-sm text-center w-full">
           <a href="https://eskadra.bielik.ai/trenerzy/" target="_blank" class="block">
             <img
               src="https://eskadra.bielik.ai/wp-content/uploads/2025/11/Konrad-Dzbik.jpg"
@@ -326,7 +591,7 @@
         </div>
 
       </div>
-      <p class="text-center mt-8 text-sm text-secondary">
+      <p class="text-center mt-8 text-sm text-secondary reveal">
         All badges are <strong>verified</strong> — click to validate.
       </p>
     </section>
@@ -334,56 +599,180 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-100 dark:bg-slate-900 py-10 mt-20">
-    <div class="max-w-5xl mx-auto px-6 text-center text-sm text-secondary">
-      © 2025 Konrad Dżbik • Built with <span class="text-pink-500">heart</span> and <span class="text-blue-500">Tailwind</span>
+  <footer>
+    <div class="footer-border"></div>
+    <div class="bg-gray-100 dark:bg-slate-900 py-12">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="grid gap-8 md:grid-cols-3 text-sm">
+
+          <!-- Brand -->
+          <div class="text-center md:text-left">
+            <span class="text-lg font-bold text-primary">KD</span>
+            <p class="text-secondary mt-2">Building AI that speaks Polish.</p>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="text-center">
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+              <a href="#projects" class="text-secondary hover:text-primary transition">Projects</a>
+              <a href="#articles" class="text-secondary hover:text-primary transition">Articles</a>
+              <a href="#eskadra" class="text-secondary hover:text-primary transition">Eskadra</a>
+              <a href="#open-maic" class="text-secondary hover:text-primary transition">Open mAIc</a>
+              <a href="#certifications" class="text-secondary hover:text-primary transition">Certs</a>
+            </div>
+          </div>
+
+          <!-- Social -->
+          <div class="flex justify-center md:justify-end items-center gap-5">
+            <a href="https://github.com/konraddzbik" target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-primary transition">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+            <a href="https://medium.com/@dzbik.konrad" target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-primary transition">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
+            </a>
+            <a href="mailto:dzbik.konrad@email.com" class="text-secondary hover:text-primary transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </a>
+          </div>
+
+        </div>
+
+        <p class="text-center text-xs text-muted mt-8 pt-6 border-t nav-border">
+          © 2026 Konrad Dżbik · Built with <span class="text-pink-500">heart</span> and <span class="text-blue-500">Tailwind</span>
+        </p>
+      </div>
     </div>
   </footer>
 
-  <!-- Theme Switcher -->
   <script>
+    // === THEME SWITCHER ===
     const toggle = document.getElementById('theme-toggle');
     const sun = document.getElementById('sun-icon');
     const moon = document.getElementById('moon-icon');
     const html = document.documentElement;
 
-    // Load saved theme
     const saved = localStorage.getItem('theme');
     if (saved) {
       html.className = saved;
+      if (saved === 'dark-theme') html.classList.add('dark');
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       html.className = 'dark-theme';
+      html.classList.add('dark');
     }
 
     function updateIcons() {
-      if (html.classList.contains('dark-theme')) {
-        sun.classList.remove('hidden');
-        moon.classList.add('hidden');
-      } else {
-        sun.classList.add('hidden');
-        moon.classList.remove('hidden');
-      }
+      const isDark = html.classList.contains('dark-theme');
+      sun.classList.toggle('hidden', !isDark);
+      moon.classList.toggle('hidden', isDark);
     }
     updateIcons();
 
     toggle.addEventListener('click', () => {
-      if (html.classList.contains('light-theme')) {
-        html.className = 'dark-theme';
-        localStorage.setItem('theme', 'dark-theme');
-      } else {
-        html.className = 'light-theme';
-        localStorage.setItem('theme', 'light-theme');
-      }
+      const isDark = html.classList.contains('light-theme');
+      html.className = isDark ? 'dark-theme dark' : 'light-theme';
+      localStorage.setItem('theme', isDark ? 'dark-theme' : 'light-theme');
       updateIcons();
     });
+
+    // === HAMBURGER MENU ===
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('hamburger-open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('hamburger-open');
+      });
+    });
+
+    // === SCROLL REVEAL ===
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const children = entry.target.querySelectorAll('.glass, .stat-number');
+          if (children.length > 0) {
+            children.forEach((child, idx) => {
+              child.style.transitionDelay = `${idx * 80}ms`;
+              child.classList.add('reveal', 'active');
+            });
+          }
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // === ACTIVE NAV LINK ===
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+
+    sections.forEach(section => navObserver.observe(section));
+
+    // === STAT COUNT-UP ===
+    let statsCounted = false;
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsCounted) {
+          statsCounted = true;
+          document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+            const target = parseInt(el.dataset.target);
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            const duration = 1500;
+            const start = performance.now();
+
+            function tick(now) {
+              const progress = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              el.textContent = prefix + Math.round(target * eased) + suffix;
+              if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statsObserver.observe(document.getElementById('stats'));
+
+    // === HERO CURSOR GLOW ===
+    if (window.matchMedia('(hover: hover)').matches) {
+      const hero = document.querySelector('.hero-gradient');
+      const glow = document.getElementById('hero-glow');
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        glow.style.left = (e.clientX - rect.left) + 'px';
+        glow.style.top = (e.clientY - rect.top) + 'px';
+        glow.style.opacity = '1';
+      });
+      hero.addEventListener('mouseleave', () => {
+        glow.style.opacity = '0';
+      });
+    }
   </script>
 
-  <!-- GitHub Projects (Shortened Description) -->
+  <!-- GitHub Projects -->
   <script>
     fetch('https://api.github.com/users/konraddzbik/repos?sort=updated&per_page=6')
       .then(r => r.json())
       .then(repos => {
-        const c = document.getElementById('projects');
+        const c = document.getElementById('projects-grid');
         c.innerHTML = '';
         repos.forEach(r => {
           const color = { JavaScript: 'bg-yellow-400', Python: 'bg-blue-500', HTML: 'bg-orange-500' }[r.language] || 'bg-gray-400';
@@ -398,22 +787,26 @@
             </a>`;
         });
       })
-      .catch(() => c.innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load projects.</p>");
+      .catch(() => {
+        document.getElementById('projects-grid').innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load projects.</p>";
+      });
   </script>
 
-  <!-- Medium Articles (Full Description Restored) -->
+  <!-- Medium Articles -->
   <script>
     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@dzbik.konrad')
       .then(r => r.json())
       .then(d => {
-        const c = document.getElementById('articles');
+        const c = document.getElementById('articles-grid');
         c.innerHTML = '';
         d.items.slice(0, 6).forEach(i => {
           const img = i.description.match(/src="([^"]+)"/)?.[1] || 'https://via.placeholder.com/400x200?text=AI';
           const cleanDesc = i.description.replace(/<[^>]+>/g, '').trim();
           c.innerHTML += `
-            <a href="${i.link}" target="_blank" class="glass block rounded-xl overflow-hidden">
-              <img src="${img}" class="w-full h-48 object-cover">
+            <a href="${i.link}" target="_blank" class="glass article-card block rounded-xl overflow-hidden">
+              <div class="overflow-hidden">
+                <img src="${img}" class="w-full h-48 object-cover">
+              </div>
               <div class="p-5">
                 <h3 class="font-semibold text-lg text-primary line-clamp-2">${i.title}</h3>
                 <p class="text-sm text-secondary mt-2 line-clamp-3">${cleanDesc || 'No description'}</p>
@@ -422,7 +815,9 @@
             </a>`;
         });
       })
-      .catch(() => c.innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load articles.</p>");
+      .catch(() => {
+        document.getElementById('articles-grid').innerHTML = "<p class='col-span-full text-center text-red-500'>Failed to load articles.</p>";
+      });
   </script>
 
 </body>
