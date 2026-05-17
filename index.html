@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Konrad Dzbik – Leadership & AI & LLMs</title>
+  <title>Konrad Dżbik – Leadership & AI & LLMs</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -75,6 +75,18 @@
       margin: 0;
       font-family: 'Inter', sans-serif;
     }
+    .cert-logo { width: 64px; height: 64px; }
+    .cert-photo { width: 96px; height: 96px; }
+
+    /* Eskadra Bielik */
+    .post-linkedin {
+      margin-top: 1.5rem;
+      padding: 1rem 1.5rem;
+      border-left: 3px solid #6366f1;
+      border-radius: 0.5rem;
+    }
+    .light-theme .post-linkedin { background: rgba(99,102,241,0.06); }
+    .dark-theme .post-linkedin { background: rgba(99,102,241,0.12); }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -94,8 +106,8 @@
   <!-- Header -->
   <header class="pt-32 pb-20 text-center header-bg text-white">
     <div class="max-w-5xl mx-auto px-6">
-      <h1 class="text-5xl md:text-7xl font-extrabold mb-4">Konrad Dzbik</h1>
-      <p class="text-xl opacity-90">Technical Manager • AI Developer • LLMs • NLP</p>
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-4">Konrad Dżbik</h1>
+      <p class="text-xl opacity-90">Head of AI @ CSHARK • PhD Candidate in AI for Management • RAG, Agentic Systems, RegTech</p>
       <div class="mt-10 flex justify-center space-x-8 text-sm md:text-base">
         <a href="https://github.com/konraddzbik" class="hover:underline">GitHub</a>
         <a href="https://medium.com/@dzbik.konrad" class="hover:underline">Medium</a>
@@ -130,24 +142,192 @@
       </div>
     </section>
 
+    <!-- Eskadra Bielik -->
+    <section>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Eskadra Bielik Workshops</h2>
+      <p class="text-center text-secondary mb-12 max-w-3xl mx-auto">
+        Hands-on workshops as part of the <strong class="text-primary">Eskadra Bielika</strong> initiative (SpeakLeash) —
+        building sovereign AI solutions on the Polish Bielik model.
+      </p>
+
+      <div class="grid gap-8 md:grid-cols-2">
+
+      <!-- Mission 1 -->
+      <article class="glass rounded-xl p-8">
+        <h3 class="text-2xl font-bold text-primary mb-2">Mission 1 — AI Agent on Bielik</h3>
+        <p class="text-sm text-muted mb-4">
+          <time datetime="2025-12-09">2025-12-09</time> · Wroclaw · hands-on · ~3 hours · free
+        </p>
+
+        <p class="text-secondary leading-relaxed mb-6">
+          Each participant designed and deployed a fully functional AI Agent — powered by the Polish Bielik model.
+          From zero to production deployment on Google Cloud in 3 hours.
+        </p>
+
+        <h4 class="text-lg font-semibold text-primary mb-3">Stack</h4>
+        <ul class="list-disc list-inside text-secondary space-y-1 mb-6">
+          <li><strong>Bielik AI</strong> via Ollama</li>
+          <li><strong>Google ADK</strong> (Agent Development Kit)</li>
+          <li><strong>Google Cloud Run</strong> with GPU</li>
+        </ul>
+
+        <aside class="post-linkedin">
+          <p class="text-secondary">Full workshop recap on LinkedIn:</p>
+          <a href="https://www.linkedin.com/posts/konrad-dzbik_adk-adk-eskadrabielika-activity-7404418333921734656-FS8r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB5lkOkBUpEBl_6wyA0kFGZdkcQGuj4P5OY" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+            Mission 1 on LinkedIn →
+          </a>
+        </aside>
+      </article>
+
+      <!-- Mission 2 -->
+      <article class="glass rounded-xl p-8">
+        <h3 class="text-2xl font-bold text-primary mb-2">Mission 2 — Sovereign RAG on Bielik</h3>
+        <p class="text-sm text-muted mb-4">
+          <!-- TODO: fill in workshop date -->
+          <time datetime="TODO">Date: TBD</time> · hands-on · 3 hours · 30 participants
+        </p>
+
+        <p class="text-secondary leading-relaxed mb-6">
+          A fully sovereign RAG system — no external APIs, data never leaves the project.
+          Runs on Cloud Run (serverless) or locally via
+          <code class="bg-gray-200 dark:bg-slate-700 px-1 rounded text-sm">docker compose up</code>.
+        </p>
+
+        <h4 class="text-lg font-semibold text-primary mb-3">Stack</h4>
+        <ul class="list-disc list-inside text-secondary space-y-1 mb-6">
+          <li><strong>Bielik 4.5B v3.0 Instruct</strong> (SpeakLeash) on Cloud Run with NVIDIA L4 GPU</li>
+          <li><strong>EmbeddingGemma 300M</strong> — 768-dim embeddings</li>
+          <li><strong>BigQuery Vector Search</strong> (online) · <strong>Qdrant</strong> (offline)</li>
+          <li><strong>FastAPI + Ollama</strong> — orchestration &amp; model runtime</li>
+          <li><strong>Side-by-side UI</strong> — Bielik vs Bielik + RAG comparison</li>
+        </ul>
+
+        <!-- TODO: replace TODO-linkedin-url-misja2 with the published post URL -->
+        <aside class="post-linkedin">
+          <p class="text-secondary">Full workshop recap on LinkedIn:</p>
+          <a href="TODO-linkedin-url-misja2" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+            Mission 2 on LinkedIn →
+          </a>
+        </aside>
+      </article>
+
+      </div>
+
+    </section>
+
+    <!-- Open mAIc Workshops -->
+    <section>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-primary">Open mAIc Workshops</h2>
+      <p class="text-center text-secondary mb-4 max-w-3xl mx-auto">
+        Hands-on AI workshop series, now a public Wroclaw AI community meetup.
+        Mixed audience — developers, testers, PMs, marketing, finance — in one room.
+        ~60 min per session, 40% theory, 60% hands-on.
+      </p>
+      <p class="text-center text-muted text-sm mb-12">
+        5 workshops delivered · 157+ attendees · +162% growth (#1 → #4)
+      </p>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+        <!-- #1 Local AI -->
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7429996272352301056/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#1</span>
+            <h3 class="font-bold text-lg text-primary">Local AI</h3>
+          </div>
+          <p class="text-xs text-muted mb-2">21 attendees</p>
+          <p class="text-sm text-secondary">Running LLMs locally with Ollama. Why on-device matters.</p>
+        </a>
+
+        <!-- #2 Prompt Engineering -->
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7435022362238156800/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#2</span>
+            <h3 class="font-bold text-lg text-primary">Prompt Engineering</h3>
+          </div>
+          <p class="text-xs text-muted mb-2">35 attendees</p>
+          <p class="text-sm text-secondary">Advanced prompting techniques and role-specific patterns.</p>
+        </a>
+
+        <!-- #3 Spec Kit / SDD -->
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7440099344013500417/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#3</span>
+            <h3 class="font-bold text-lg text-primary">Spec Kit / SDD</h3>
+          </div>
+          <p class="text-xs text-muted mb-2">46 attendees</p>
+          <p class="text-sm text-secondary">Spec-driven development with spec-kit and Claude. Live Pokedex demo by Marcin Krok.</p>
+        </a>
+
+        <!-- #4 Skills for Claude -->
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7445378796406489088/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#4</span>
+            <h3 class="font-bold text-lg text-primary">Skills for Claude</h3>
+          </div>
+          <p class="text-xs text-muted mb-2">55 attendees</p>
+          <p class="text-sm text-secondary">Deep dive into skills.md and agentic workflows. Highest turnout, +162% vs #1.</p>
+        </a>
+
+        <!-- #5 Claude Code -->
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7455309295534927872/" target="_blank" rel="noopener noreferrer" class="glass block p-5 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#5</span>
+            <h3 class="font-bold text-lg text-primary">Claude Code</h3>
+          </div>
+          <p class="text-xs text-muted mb-2">Attendees: TBD</p>
+          <p class="text-sm text-secondary">Working with Claude Code as a daily-driver coding tool.</p>
+        </a>
+
+        <!-- Upcoming -->
+        <div class="glass block p-5 rounded-xl border-2 border-dashed border-indigo-400/30">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-gray-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">+</span>
+            <h3 class="font-bold text-lg text-primary">Coming up</h3>
+          </div>
+          <p class="text-sm text-secondary">Projects & Custom Commands · Agents & Agentic Workflows · MCP Building · RAG Systems · Knowledge Management</p>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Certifications -->
     <section>
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-primary">Certifications</h2>
-      <div class="flex justify-center">
-        <div class="glass rounded-xl p-6 max-w-xs text-center">
+      <div class="grid gap-8 md:grid-cols-2 justify-items-center">
+
+        <!-- Google Cloud Cert -->
+        <div class="glass rounded-xl p-6 max-w-sm text-center w-full">
           <a href="https://www.credly.com/badges/77e8db65-0ba0-4b7d-b212-bf4f26c966db" target="_blank" class="block">
-            <img 
-              src="https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png" 
-              alt="Professional Cloud Architect" 
-              class="w-full rounded-lg"
+            <img
+              src="https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png"
+              alt="Professional Cloud Architect"
+              class="w-full rounded-lg mb-3"
             />
-            <h3 class="mt-4 text-lg font-semibold text-indigo-600 dark:text-indigo-300">Professional Cloud Architect</h3>
+            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-300">Professional Cloud Architect</h3>
             <p class="text-sm text-secondary mt-1">Google Cloud</p>
           </a>
         </div>
+
+        <!-- Eskadra Bielika Cert -->
+        <div class="glass rounded-xl p-6 max-w-sm text-center w-full">
+          <a href="https://eskadra.bielik.ai/trenerzy/" target="_blank" class="block">
+            <img
+              src="https://eskadra.bielik.ai/wp-content/uploads/2025/11/Konrad-Dzbik.jpg"
+              alt="Konrad Dżbik — Eskadra Bielika Trainer"
+              class="w-full rounded-lg mb-3 object-cover"
+              style="aspect-ratio: 1 / 1;"
+            />
+            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-300">Eskadra Bielika Trainer</h3>
+            <p class="text-sm text-secondary mt-1">Bielik AI · Misja 1 & Misja 2</p>
+            <p class="text-xs text-muted mt-2 font-mono bg-indigo-100 dark:bg-indigo-900 px-3 py-1 rounded inline-block">Misja 1: Cert #2025/01/06</p>
+            <p class="text-xs text-muted mt-1 font-mono bg-indigo-100 dark:bg-indigo-900 px-3 py-1 rounded inline-block">Misja 2: Cert #2026/01/34</p>
+          </a>
+        </div>
+
       </div>
       <p class="text-center mt-8 text-sm text-secondary">
-        All badges are <strong>verified on Credly</strong> — click to validate.
+        All badges are <strong>verified</strong> — click to validate.
       </p>
     </section>
 
@@ -156,7 +336,7 @@
   <!-- Footer -->
   <footer class="bg-gray-100 dark:bg-slate-900 py-10 mt-20">
     <div class="max-w-5xl mx-auto px-6 text-center text-sm text-secondary">
-      © 2025 Konrad Dzbik • Built with <span class="text-pink-500">heart</span> and <span class="text-blue-500">Tailwind</span>
+      © 2025 Konrad Dżbik • Built with <span class="text-pink-500">heart</span> and <span class="text-blue-500">Tailwind</span>
     </div>
   </footer>
 
