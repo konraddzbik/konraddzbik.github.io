@@ -279,10 +279,253 @@
       height: 2px;
       background: linear-gradient(to right, transparent, #6366f1, #8b5cf6, transparent);
     }
+
+    /* ===================================================
+       DOS THEME — Old Windows / Norton Commander style
+       =================================================== */
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    @keyframes crtFlicker {
+      0%   { opacity: 0.97; }
+      5%   { opacity: 1; }
+      10%  { opacity: 0.98; }
+      100% { opacity: 1; }
+    }
+
+    .dos-theme {
+      background: #0000AA !important;
+      color: #AAAAAA !important;
+      font-family: 'Courier New', 'Consolas', monospace !important;
+      image-rendering: pixelated;
+    }
+
+    /* CRT scanline overlay */
+    .dos-theme::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 9999;
+      animation: crtFlicker 4s infinite;
+    }
+
+    /* CRT vignette */
+    .dos-theme::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .dos-theme .text-primary { color: #FFFFFF !important; }
+    .dos-theme .text-secondary { color: #AAAAAA !important; }
+    .dos-theme .text-muted { color: #555555 !important; }
+
+    /* DOS navbar */
+    .dos-theme .nav-bg {
+      background: #0000AA !important;
+      backdrop-filter: none !important;
+    }
+    .dos-theme .nav-border { border-color: #555555 !important; }
+    .dos-theme .mobile-menu-bg { background: #0000AA !important; }
+
+    /* DOS nav links */
+    .dos-theme .nav-link { color: #FFFF55 !important; }
+    .dos-theme .nav-link:hover { color: #FFFFFF !important; }
+    .dos-theme .nav-link::after { background: #FFFF55 !important; }
+
+    /* DOS hero — classic blue with yellow title bar */
+    .dos-theme .hero-gradient {
+      background: #000080 !important;
+      animation: none !important;
+    }
+    .dos-theme .hero-gradient::before { display: none !important; }
+    .dos-theme .hero-cursor-glow { display: none !important; }
+    .dos-theme .hero-gradient h1 {
+      color: #FFFF55 !important;
+      text-shadow: none !important;
+      font-weight: bold !important;
+      letter-spacing: 0.05em;
+    }
+    .dos-theme .hero-gradient p,
+    .dos-theme .hero-gradient a {
+      color: #AAAAAA !important;
+    }
+    .dos-theme .hero-gradient a:hover { color: #FFFFFF !important; }
+
+    /* DOS glass cards → box-drawing bordered panels */
+    .dos-theme .glass {
+      background: #000080 !important;
+      backdrop-filter: none !important;
+      border: 1px solid #AAAAAA !important;
+      border-radius: 0 !important;
+      box-shadow: 2px 2px 0 #000055 !important;
+    }
+    .dos-theme .glass:hover {
+      transform: none !important;
+      box-shadow: 2px 2px 0 #000055 !important;
+      border-color: #FFFF55 !important;
+    }
+
+    /* DOS workshop / cert / article overrides */
+    .dos-theme .workshop-card:hover,
+    .dos-theme .cert-card:hover {
+      box-shadow: 2px 2px 0 #000055 !important;
+    }
+    .dos-theme .article-card:hover img {
+      transform: none !important;
+    }
+    .dos-theme .cert-card:hover img {
+      filter: none !important;
+    }
+
+    /* DOS section heading accent */
+    .dos-theme .section-heading::after {
+      background: #FFFF55 !important;
+      border-radius: 0 !important;
+      height: 2px !important;
+    }
+    .dos-theme .section-divider {
+      background: #555555 !important;
+      opacity: 1 !important;
+    }
+
+    /* DOS stat cards */
+    .dos-theme .stat-number {
+      font-family: 'Courier New', monospace !important;
+      color: #55FF55 !important;
+    }
+
+    /* DOS footer */
+    .dos-theme .footer-border {
+      background: #555555 !important;
+      height: 1px !important;
+    }
+    .dos-theme footer > div {
+      background: #000080 !important;
+    }
+
+    /* DOS skeleton */
+    .dos-theme .skeleton {
+      background: #000055 !important;
+      animation: none !important;
+      border: 1px dashed #555555 !important;
+      border-radius: 0 !important;
+    }
+
+    /* DOS post-linkedin aside */
+    .dos-theme .post-linkedin {
+      background: #000055 !important;
+      border-left-color: #FFFF55 !important;
+      border-radius: 0 !important;
+    }
+
+    /* DOS code blocks */
+    .dos-theme code {
+      background: #000000 !important;
+      color: #55FF55 !important;
+      border-radius: 0 !important;
+    }
+
+    /* DOS links (indigo → yellow) */
+    .dos-theme .text-indigo-600,
+    .dos-theme .text-indigo-300,
+    .dos-theme [class*="text-indigo"] {
+      color: #FFFF55 !important;
+    }
+    .dos-theme .text-pink-500 { color: #FF5555 !important; }
+    .dos-theme .text-blue-500 { color: #5555FF !important; }
+
+    /* DOS images — pixelated, desaturated */
+    .dos-theme img {
+      filter: saturate(0.3) contrast(1.2);
+      image-rendering: pixelated;
+    }
+
+    /* DOS badge circles */
+    .dos-theme .bg-indigo-600 {
+      background: #FFFF55 !important;
+      color: #000000 !important;
+      border-radius: 0 !important;
+    }
+    .dos-theme .bg-gray-500 {
+      background: #AAAAAA !important;
+      color: #000000 !important;
+      border-radius: 0 !important;
+    }
+
+    /* DOS cert badge pills */
+    .dos-theme .bg-indigo-100,
+    .dos-theme [class*="bg-indigo-100"],
+    .dos-theme [class*="bg-indigo-900"] {
+      background: #000055 !important;
+      color: #AAAAAA !important;
+      border-radius: 0 !important;
+    }
+
+    /* Hide background blurs in DOS mode */
+    .dos-theme .bg-blur-shape { display: none !important; }
+
+    /* DOS scroll reveal — instant, no fancy transitions */
+    .dos-theme .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* Blinking cursor after hero title */
+    .dos-cursor::after {
+      content: '█';
+      animation: blink 1s step-end infinite;
+      margin-left: 4px;
+    }
+
+    /* DOS theme toggle button style */
+    .dos-toggle-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .dos-theme .dos-toggle-label { color: #FFFF55 !important; }
+
+    /* DOS themed scrollbar */
+    .dos-theme::-webkit-scrollbar { width: 16px; }
+    .dos-theme::-webkit-scrollbar-track { background: #000080; }
+    .dos-theme::-webkit-scrollbar-thumb { background: #AAAAAA; border: 2px solid #000080; }
+
+    /* DOS banner shifts content down */
+    .dos-theme nav.fixed { top: 28px !important; }
+
+    /* DOS border-dashed override */
+    .dos-theme .border-dashed { border-style: dashed !important; border-color: #555555 !important; }
+
+    /* DOS mode button active state */
+    .dos-theme #dos-toggle {
+      background: #FFFF55 !important;
+      color: #000000 !important;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="theme-transition">
+
+  <!-- DOS Boot Banner (hidden by default) -->
+  <div id="dos-banner" class="hidden fixed top-0 left-0 right-0 z-[60] text-center py-1" style="background:#FFFF55; color:#000000; font-family:'Courier New',monospace; font-size:0.75rem; font-weight:bold; letter-spacing:0.1em;">
+    KONRAD.EXE v2.0 — 640K ought to be enough for anybody — Press [DOS] to return to modern mode
+  </div>
 
   <!-- Background Blurs -->
   <div class="bg-blur-shape bg-blur-1" style="width:600px;height:600px;top:10%;left:-10%"></div>
@@ -304,6 +547,12 @@
       </div>
 
       <div class="flex items-center gap-3">
+        <!-- DOS mode toggle -->
+        <button id="dos-toggle" class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-primary transition" style="background: rgba(128,128,128,0.15);" title="Toggle DOS mode">
+          <span class="dos-toggle-label hidden sm:inline">DOS</span>
+          <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><path d="M0 2h16v12H0V2zm1 1v10h14V3H1zm2 2h10v1H3V5zm0 2h7v1H3V7zm0 2h9v1H3V9z"/></svg>
+        </button>
+
         <!-- Theme toggle -->
         <button id="theme-toggle" class="p-2 rounded-lg text-primary transition" style="background: rgba(128,128,128,0.15);">
           <svg id="sun-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
@@ -337,7 +586,7 @@
   <header class="hero-gradient pt-32 pb-24 text-center text-white">
     <div id="hero-glow" class="hero-cursor-glow"></div>
     <div class="max-w-5xl mx-auto px-6">
-      <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="text-shadow: 0 0 60px rgba(255,255,255,0.15);">Konrad Dżbik</h1>
+      <h1 id="hero-title" class="text-5xl md:text-7xl font-extrabold mb-4" style="text-shadow: 0 0 60px rgba(255,255,255,0.15);">Konrad Dżbik</h1>
       <p class="text-xl font-light opacity-90 max-w-2xl mx-auto">Head of AI @ CSHARK · PhD Candidate in AI for Management · RAG, Agentic Systems, RegTech</p>
       <div class="mt-10 flex justify-center space-x-8 text-sm md:text-base">
         <a href="https://github.com/konraddzbik" class="hover:opacity-80 transition-opacity flex items-center gap-2">
@@ -352,6 +601,10 @@
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           Email
         </a>
+      </div>
+      <!-- DOS prompt line (visible only in DOS mode) -->
+      <div id="dos-prompt" class="hidden mt-10 text-left max-w-2xl mx-auto" style="font-family:'Courier New',monospace; color:#55FF55; font-size:0.875rem;">
+        C:\KONRAD> dir /s *.ai<span style="animation: blink 1s step-end infinite;">█</span>
       </div>
     </div>
   </header>
@@ -645,33 +898,50 @@
   </footer>
 
   <script>
-    // === THEME SWITCHER ===
+    // === THEME SWITCHER (light / dark / DOS) ===
     const toggle = document.getElementById('theme-toggle');
+    const dosToggle = document.getElementById('dos-toggle');
     const sun = document.getElementById('sun-icon');
     const moon = document.getElementById('moon-icon');
+    const heroTitle = document.getElementById('hero-title');
+    const dosPrompt = document.getElementById('dos-prompt');
     const html = document.documentElement;
 
-    const saved = localStorage.getItem('theme');
-    if (saved) {
-      html.className = saved;
-      if (saved === 'dark-theme') html.classList.add('dark');
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      html.className = 'dark-theme';
-      html.classList.add('dark');
-    }
+    const dosBanner = document.getElementById('dos-banner');
+    let dosMode = localStorage.getItem('dosMode') === 'true';
+    let baseTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-theme' : 'light-theme');
 
-    function updateIcons() {
-      const isDark = html.classList.contains('dark-theme');
+    function applyTheme() {
+      if (dosMode) {
+        html.className = 'dos-theme';
+        heroTitle.classList.add('dos-cursor');
+        dosPrompt.classList.remove('hidden');
+        dosBanner.classList.remove('hidden');
+        document.body.style.paddingTop = '';
+      } else {
+        html.className = baseTheme;
+        if (baseTheme === 'dark-theme') html.classList.add('dark');
+        heroTitle.classList.remove('dos-cursor');
+        dosPrompt.classList.add('hidden');
+        dosBanner.classList.add('hidden');
+      }
+      const isDark = html.classList.contains('dark-theme') && !dosMode;
       sun.classList.toggle('hidden', !isDark);
       moon.classList.toggle('hidden', isDark);
     }
-    updateIcons();
+    applyTheme();
 
     toggle.addEventListener('click', () => {
-      const isDark = html.classList.contains('light-theme');
-      html.className = isDark ? 'dark-theme dark' : 'light-theme';
-      localStorage.setItem('theme', isDark ? 'dark-theme' : 'light-theme');
-      updateIcons();
+      if (dosMode) return;
+      baseTheme = baseTheme === 'light-theme' ? 'dark-theme' : 'light-theme';
+      localStorage.setItem('theme', baseTheme);
+      applyTheme();
+    });
+
+    dosToggle.addEventListener('click', () => {
+      dosMode = !dosMode;
+      localStorage.setItem('dosMode', dosMode);
+      applyTheme();
     });
 
     // === HAMBURGER MENU ===
