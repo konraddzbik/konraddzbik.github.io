@@ -316,6 +316,13 @@
     .dark-theme .bg-blur-2 { background: rgba(139, 92, 246, 0.08); }
     .dark-theme .bg-blur-3 { background: rgba(13, 148, 136, 0.06); }
 
+    /* === DARK THEME OVERRIDES FOR INLINE CLASSES === */
+    .dark-theme .dark-indigo-link { color: #818cf8; }
+    .dark-theme .dark-indigo-heading { color: #a5b4fc; }
+    .dark-theme .dark-code-bg { background: #334155; }
+    .dark-theme .dark-badge-bg { background: #312e81; }
+    .dark-theme .dark-footer-bg { background: #0f172a; }
+
     /* === FOOTER GRADIENT BORDER === */
     .footer-border {
       height: 2px;
@@ -952,21 +959,21 @@
 
         <div class="grid md:grid-cols-3 gap-8">
           <div>
-            <h4 class="font-semibold text-indigo-600 dark:text-indigo-300 text-sm uppercase tracking-wide mb-2">Problem</h4>
+            <h4 class="font-semibold text-indigo-600 dark-indigo-heading text-sm uppercase tracking-wide mb-2">Problem</h4>
             <p class="text-secondary text-sm leading-relaxed">
               Organizations need AI systems that keep data sovereign — no external APIs, no data leaving the infrastructure. Most RAG solutions depend on OpenAI or cloud-only vector stores, creating vendor lock-in and compliance risk.
             </p>
           </div>
           <div>
-            <h4 class="font-semibold text-indigo-600 dark:text-indigo-300 text-sm uppercase tracking-wide mb-2">Approach</h4>
+            <h4 class="font-semibold text-indigo-600 dark-indigo-heading text-sm uppercase tracking-wide mb-2">Approach</h4>
             <p class="text-secondary text-sm leading-relaxed">
               Built a fully sovereign RAG pipeline using Polish Bielik 4.5B model, EmbeddingGemma for 768-dim embeddings, and dual vector search (BigQuery online, Qdrant offline). Side-by-side UI compares raw Bielik vs Bielik + RAG responses.
             </p>
           </div>
           <div>
-            <h4 class="font-semibold text-indigo-600 dark:text-indigo-300 text-sm uppercase tracking-wide mb-2">Impact</h4>
+            <h4 class="font-semibold text-indigo-600 dark-indigo-heading text-sm uppercase tracking-wide mb-2">Impact</h4>
             <p class="text-secondary text-sm leading-relaxed">
-              Deployable via <code class="bg-gray-200 dark:bg-slate-700 px-1 rounded text-xs">docker compose up</code> or serverless on GCP with NVIDIA L4 GPU. Delivered as a hands-on workshop to 30 participants. Fully open-source.
+              Deployable via <code class="bg-gray-200 dark-code-bg px-1 rounded text-xs">docker compose up</code> or serverless on GCP with NVIDIA L4 GPU. Delivered as a hands-on workshop to 30 participants. Fully open-source.
             </p>
           </div>
         </div>
@@ -1035,7 +1042,7 @@
 
           <aside class="post-linkedin">
             <p class="text-secondary">Full workshop recap on LinkedIn:</p>
-            <a href="https://www.linkedin.com/posts/konrad-dzbik_adk-adk-eskadrabielika-activity-7404418333921734656-FS8r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB5lkOkBUpEBl_6wyA0kFGZdkcQGuj4P5OY" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+            <a href="https://www.linkedin.com/posts/konrad-dzbik_adk-adk-eskadrabielika-activity-7404418333921734656-FS8r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB5lkOkBUpEBl_6wyA0kFGZdkcQGuj4P5OY" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark-indigo-link font-semibold hover:underline">
               Mission 1 on LinkedIn →
             </a>
           </aside>
@@ -1051,7 +1058,7 @@
           <p class="text-secondary leading-relaxed mb-6">
             A fully sovereign RAG system — no external APIs, data never leaves the project.
             Runs on Cloud Run (serverless) or locally via
-            <code class="bg-gray-200 dark:bg-slate-700 px-1 rounded text-sm">docker compose up</code>.
+            <code class="bg-gray-200 dark-code-bg px-1 rounded text-sm">docker compose up</code>.
           </p>
 
           <h4 class="text-lg font-semibold text-primary mb-3">Stack</h4>
@@ -1065,7 +1072,7 @@
 
           <aside class="post-linkedin">
             <p class="text-secondary">Full workshop recap on LinkedIn:</p>
-            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7462046232488796160/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
+            <a href="https://www.linkedin.com/feed/update/urn:li:activity:7462046232488796160/" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark-indigo-link font-semibold hover:underline">
               Mission 2 on LinkedIn →
             </a>
           </aside>
@@ -1114,7 +1121,7 @@
               <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#1</span>
               <h3 class="font-bold text-lg text-primary">Local AI</h3>
             </div>
-            <p class="text-xs text-muted mb-2">21 attendees</p>
+            <p class="text-xs text-muted mb-2">Feb 18, 2026 · 21 attendees</p>
             <p class="text-sm text-secondary">Running LLMs locally with Ollama. Why on-device matters.</p>
           </a>
 
@@ -1124,7 +1131,7 @@
               <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#2</span>
               <h3 class="font-bold text-lg text-primary">Prompt Engineering</h3>
             </div>
-            <p class="text-xs text-muted mb-2">35 attendees</p>
+            <p class="text-xs text-muted mb-2">Mar 4, 2026 · 35 attendees</p>
             <p class="text-sm text-secondary">Advanced prompting techniques and role-specific patterns.</p>
           </a>
 
@@ -1134,7 +1141,7 @@
               <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#3</span>
               <h3 class="font-bold text-lg text-primary">Spec Kit / SDD</h3>
             </div>
-            <p class="text-xs text-muted mb-2">46 attendees</p>
+            <p class="text-xs text-muted mb-2">Mar 18, 2026 · 46 attendees</p>
             <p class="text-sm text-secondary">Spec-driven development with spec-kit and Claude. Live Pokedex demo by Marcin Krok.</p>
           </a>
 
@@ -1144,8 +1151,8 @@
               <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#4</span>
               <h3 class="font-bold text-lg text-primary">Skills for Claude</h3>
             </div>
-            <p class="text-xs text-muted mb-2">55 attendees</p>
-            <p class="text-sm text-secondary">Deep dive into skills.md and agentic workflows. Highest turnout, +162% vs #1.</p>
+            <p class="text-xs text-muted mb-2">Apr 1, 2026 · 53 attendees</p>
+            <p class="text-sm text-secondary">Deep dive into skills.md and agentic workflows. Peak turnout, +152% vs #1.</p>
           </a>
 
           <!-- #5 Claude Code -->
@@ -1154,7 +1161,7 @@
               <span class="bg-indigo-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">#5</span>
               <h3 class="font-bold text-lg text-primary">Claude Code</h3>
             </div>
-            <p class="text-xs text-muted mb-2">Attendees: TBD</p>
+            <p class="text-xs text-muted mb-2">Apr 29, 2026 · 40 attendees</p>
             <p class="text-sm text-secondary">Working with Claude Code as a daily-driver coding tool.</p>
           </a>
 
@@ -1185,9 +1192,10 @@
             <img
               src="https://images.credly.com/size/680x680/images/71c579e0-51fd-4247-b493-d2fa8167157a/image.png"
               alt="Professional Cloud Architect"
+              loading="lazy"
               class="w-full rounded-lg mb-3"
             />
-            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-300">Professional Cloud Architect</h3>
+            <h3 class="text-lg font-semibold text-indigo-600 dark-indigo-heading">Professional Cloud Architect</h3>
             <p class="text-sm text-secondary mt-1">Google Cloud</p>
           </a>
         </div>
@@ -1198,13 +1206,14 @@
             <img
               src="https://eskadra.bielik.ai/wp-content/uploads/2025/11/Konrad-Dzbik.jpg"
               alt="Konrad Dżbik — Eskadra Bielika Trainer"
+              loading="lazy"
               class="w-full rounded-lg mb-3 object-cover"
               style="aspect-ratio: 1 / 1;"
             />
-            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-300">Eskadra Bielika Trainer</h3>
+            <h3 class="text-lg font-semibold text-indigo-600 dark-indigo-heading">Eskadra Bielika Trainer</h3>
             <p class="text-sm text-secondary mt-1">Bielik AI · Misja 1 & Misja 2</p>
-            <p class="text-xs text-muted mt-2 font-mono bg-indigo-100 dark:bg-indigo-900 px-3 py-1 rounded inline-block">Misja 1: Cert #2025/01/06</p>
-            <p class="text-xs text-muted mt-1 font-mono bg-indigo-100 dark:bg-indigo-900 px-3 py-1 rounded inline-block">Misja 2: Cert #2026/01/34</p>
+            <p class="text-xs text-muted mt-2 font-mono bg-indigo-100 dark-badge-bg px-3 py-1 rounded inline-block">Misja 1: Cert #2025/01/06</p>
+            <p class="text-xs text-muted mt-1 font-mono bg-indigo-100 dark-badge-bg px-3 py-1 rounded inline-block">Misja 2: Cert #2026/01/34</p>
           </a>
         </div>
 
@@ -1265,7 +1274,7 @@
   <!-- Footer -->
   <footer>
     <div class="footer-border"></div>
-    <div class="bg-gray-100 dark:bg-slate-900 py-12">
+    <div class="bg-gray-100 dark-footer-bg py-12">
       <div class="max-w-5xl mx-auto px-6">
         <div class="grid gap-8 md:grid-cols-3 text-sm">
 
