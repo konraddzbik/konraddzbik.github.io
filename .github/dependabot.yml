@@ -11,3 +11,8 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      # v4 drops the CLI from this package and changes the CSS entry/config format;
+      # upgrading is a manual migration, not a version bump.
+      - dependency-name: tailwindcss
+        update-types: ['version-update:semver-major']
