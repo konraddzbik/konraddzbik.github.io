@@ -252,14 +252,14 @@
     grid.append(p);
   }
 
-  function loadSnapshot(name, gridId, renderCard, fallback) {
+  function loadSnapshot(name, gridId, renderCard, fallback, max = 6) {
     feature(name, () => {
       const grid = byId(gridId);
       fetch(`assets/data/${name}.json`)
         .then(r => { if (!r.ok) throw new Error(`${name}.json ${r.status}`); return r.json(); })
         .then(data => {
           if (!data || !Array.isArray(data.items)) throw new Error('unexpected payload');
-          const cards = data.items.slice(0, 6).map(renderCard).filter(Boolean);
+          const cards = data.items.slice(0, max).map(renderCard).filter(Boolean);
           if (!cards.length) throw new Error(`no ${name}`);
           grid.replaceChildren(...cards);
           grid.setAttribute('aria-busy', 'false');
@@ -285,6 +285,58 @@
     card.append(meta);
     return card;
   }, ['Projects could not be loaded right now.', 'https://github.com/konraddzbik', 'Browse them on GitHub →']);
+
+  const INSTALL_PATTERN = /^\/plugin marketplace add [A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+  const canCopy = Boolean(navigator.clipboard && window.isSecureContext);
+
+  function copyButton(text, label) {
+    const button = el('button', 'skill-copy', 'Copy');
+    button.type = 'button';
+    button.setAttribute('aria-label', `Copy install command for ${label}`);
+    button.addEventListener('click', () => {
+      const status = document.getElementById('skills-status');
+      navigator.clipboard.writeText(text).then(() => {
+        button.textContent = 'Copied';
+        if (status) status.textContent = `Install command for ${label} copied.`;
+        setTimeout(() => { button.textContent = 'Copy'; }, 2000);
+      }, () => {
+        if (status) status.textContent = 'Copying failed — select the command and copy it manually.';
+      });
+    });
+    return button;
+  }
+
+  loadSnapshot('skills', 'skills-grid', (skill) => {
+    const href = safeUrl(skill.url, GITHUB_HOSTS);
+    const repoHref = safeUrl(skill.repoUrl, GITHUB_HOSTS);
+    if (!href || !repoHref) return null;
+    const name = String(skill.name || '');
+
+    const card = el('article', 'glass flex flex-col min-w-0 p-5 rounded-xl');
+    const title = el('h3', 'font-bold text-lg text-primary break-words');
+    const link = externalLink(href, 'hover:underline');
+    link.textContent = name;
+    title.append(link);
+    card.append(title, el('p', 'text-sm text-secondary mt-2 line-clamp-3', skill.description || 'No description'));
+    // Pinned to the bottom so install commands and meta rows line up across a grid row.
+    const footer = el('div', 'mt-auto');
+
+    if (typeof skill.install === 'string' && INSTALL_PATTERN.test(skill.install)) {
+      const install = el('div', 'skill-install flex items-center gap-2 mt-4');
+      install.append(el('code', 'flex-1 min-w-0 block bg-gray-200 dark-code-bg px-2 py-1 rounded text-xs', skill.install));
+      if (canCopy) install.append(copyButton(skill.install, name));
+      footer.append(install);
+    }
+
+    const meta = el('div', 'flex justify-between gap-3 mt-3 text-xs text-muted');
+    const repo = externalLink(repoHref, 'hover:underline truncate');
+    repo.textContent = String(skill.repo || '');
+    const facts = [skill.license, 'Stars: ' + Number(skill.stars || 0)].filter(Boolean).join(' · ');
+    meta.append(repo, el('span', 'shrink-0', facts));
+    footer.append(meta);
+    card.append(footer);
+    return card;
+  }, ['Skills could not be loaded right now.', 'https://github.com/konraddzbik?tab=repositories&q=skill', 'Browse them on GitHub →'], 30);
 
   loadSnapshot('articles', 'articles-grid', (item) => {
     const href = safeUrl(item.link, MEDIUM_LINK_HOSTS);
