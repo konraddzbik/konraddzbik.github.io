@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- GitHub Pages cannot set response headers, so the policy ships as a meta tag (frame-ancestors is not supported here). -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.credly.com https://eskadra.bielik.ai https://*.medium.com; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.credly.com https://eskadra.bielik.ai https://cdn-images-1.medium.com https://miro.medium.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#4f46e5">
@@ -197,6 +197,14 @@
     .js .reveal.active {
       opacity: 1;
       transform: translateY(0);
+    }
+    /* Failsafe: if main.js never initialises reveals (blocked, failed, or erroring),
+       show the content anyway instead of leaving the page blank. */
+    .js:not(.reveal-ready) .reveal {
+      animation: reveal-failsafe 0s linear 2.5s forwards;
+    }
+    @keyframes reveal-failsafe {
+      to { opacity: 1; transform: none; }
     }
 
     /* === SECTION DIVIDER === */
@@ -821,7 +829,7 @@
           <svg aria-hidden="true" focusable="false" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
           Medium
         </a>
-        <a href="mailto:dzbik.konrad@email.com" class="hover:opacity-80 transition-opacity flex items-center gap-2">
+        <a href="mailto:dzbik.konrad@gmail.com" class="hover:opacity-80 transition-opacity flex items-center gap-2">
           <svg aria-hidden="true" focusable="false" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           Email
         </a>
@@ -1317,7 +1325,7 @@
           </div>
           <h3 class="text-lg font-bold text-primary mb-2">AI Consulting</h3>
           <p class="text-sm text-secondary mb-6">Need RAG, agentic systems, or Polish NLP expertise for your project?</p>
-          <a href="mailto:dzbik.konrad@email.com?subject=AI%20Consulting%20Inquiry" class="cta-btn">
+          <a href="mailto:dzbik.konrad@gmail.com?subject=AI%20Consulting%20Inquiry" class="cta-btn">
             <svg aria-hidden="true" focusable="false" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             Get in touch
           </a>
@@ -1329,7 +1337,7 @@
           </div>
           <h3 class="text-lg font-bold text-primary mb-2">Speaking & Workshops</h3>
           <p class="text-sm text-secondary mb-6">Looking for an AI speaker or hands-on workshop facilitator for your event?</p>
-          <a href="mailto:dzbik.konrad@email.com?subject=Speaking%20Inquiry" class="cta-btn">
+          <a href="mailto:dzbik.konrad@gmail.com?subject=Speaking%20Inquiry" class="cta-btn">
             <svg aria-hidden="true" focusable="false" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             Book a talk
           </a>
@@ -1388,7 +1396,7 @@
             <a href="https://medium.com/@dzbik.konrad" target="_blank" rel="noopener noreferrer" aria-label="Medium" class="text-secondary hover:text-primary transition">
               <svg aria-hidden="true" focusable="false" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/></svg>
             </a>
-            <a href="mailto:dzbik.konrad@email.com" aria-label="Email" class="text-secondary hover:text-primary transition">
+            <a href="mailto:dzbik.konrad@gmail.com" aria-label="Email" class="text-secondary hover:text-primary transition">
               <svg aria-hidden="true" focusable="false" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
             </a>
           </div>
