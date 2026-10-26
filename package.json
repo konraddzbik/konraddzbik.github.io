@@ -1,0 +1,12 @@
+{
+  "name": "konraddzbik.github.io",
+  "private": true,
+  "description": "Personal homepage of Konrad Dżbik (static, served by GitHub Pages)",
+  "scripts": {
+    "build:css": "tailwindcss -i src/tailwind.css -o assets/css/tailwind.css --minify",
+    "fetch:articles": "node scripts/fetch-articles.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

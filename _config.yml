@@ -1,6 +1,15 @@
-remote_theme: pages-themes/cayman@v0.2.0
-title: Konrad Dżbik homepage
-description: Bookmark this to keep an eye on my project updates! Will be improved over time with history, links and articles
-plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have onetitle: Octocat's homepage
+title: Konrad Dżbik
+description: Head of AI at CSHARK — RAG, agentic systems and Polish-language AI (Bielik).
+url: https://konraddzbik.github.io
 
+# index.html is a complete, hand-written page (no front matter), so no theme is needed.
+# Keep build tooling and docs out of the published site.
+exclude:
+  - README.md
+  - SECURITY-UX-AUDIT.md
+  - package.json
+  - package-lock.json
+  - tailwind.config.js
+  - src/
+  - node_modules/
+  - scripts/
