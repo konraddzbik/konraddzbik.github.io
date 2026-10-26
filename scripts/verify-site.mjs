@@ -6,6 +6,7 @@ import path from 'node:path';
 import { GENERATED_FILES, PUBLISHED_FILES } from './build.mjs';
 import { validateArticles } from './lib/medium.mjs';
 import { validateRepos } from './lib/github.mjs';
+import { validateSkills } from './lib/skills.mjs';
 
 const OUT = path.join(path.dirname(path.dirname(fileURLToPath(import.meta.url))), '_site');
 
@@ -31,6 +32,7 @@ if (missing.length || extra.length) {
 
 validateArticles(JSON.parse(await readFile(path.join(OUT, 'assets/data/articles.json'), 'utf8')));
 validateRepos(JSON.parse(await readFile(path.join(OUT, 'assets/data/repos.json'), 'utf8')));
+validateSkills(JSON.parse(await readFile(path.join(OUT, 'assets/data/skills.json'), 'utf8')));
 if ((await stat(path.join(OUT, 'assets/css/tailwind.css'))).size < 1024) {
   throw new Error('assets/css/tailwind.css is suspiciously small');
 }

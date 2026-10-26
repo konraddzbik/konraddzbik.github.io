@@ -40,10 +40,14 @@ export function validateRepos(data) {
   }
 }
 
-export async function fetchRepos({ token } = {}) {
-  const headers = { Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'konraddzbik.github.io build' };
+export function githubHeaders(token, accept = 'application/vnd.github+json') {
+  const headers = { Accept: accept, 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'konraddzbik.github.io build' };
   if (token) headers.Authorization = `Bearer ${token}`;
-  const res = await fetchWithTimeout(REPOS_URL, { headers });
+  return headers;
+}
+
+export async function fetchRepos({ token } = {}) {
+  const res = await fetchWithTimeout(REPOS_URL, { headers: githubHeaders(token) });
   const data = normalizeRepos(await res.json());
   assert(data.items.length > 0, 'repos: no public, non-fork repositories');
   return data;

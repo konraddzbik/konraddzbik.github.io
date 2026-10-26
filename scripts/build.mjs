@@ -10,6 +10,7 @@ import path from 'node:path';
 import { snapshotWithFallback } from './lib/snapshot.mjs';
 import { fetchArticles, validateArticles } from './lib/medium.mjs';
 import { fetchRepos, validateRepos } from './lib/github.mjs';
+import { fetchSkills, validateSkills } from './lib/skills.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const OUT = path.join(ROOT, '_site');
@@ -26,7 +27,7 @@ export const PUBLISHED_FILES = [
   'assets/js/main.js',
   'assets/js/theme-init.js',
 ];
-export const GENERATED_FILES = ['assets/css/tailwind.css', 'assets/data/articles.json', 'assets/data/repos.json'];
+export const GENERATED_FILES = ['assets/css/tailwind.css', 'assets/data/articles.json', 'assets/data/repos.json', 'assets/data/skills.json'];
 
 async function main() {
   await rm(OUT, { recursive: true, force: true });
@@ -40,6 +41,7 @@ async function main() {
   const snapshots = [
     { name: 'articles', fetchLive: fetchArticles, validate: validateArticles },
     { name: 'repos', fetchLive: () => fetchRepos({ token }), validate: validateRepos },
+    { name: 'skills', fetchLive: () => fetchSkills({ token }), validate: validateSkills },
   ];
   await mkdir(path.join(OUT, 'assets/data'), { recursive: true });
   for (const s of snapshots) {
