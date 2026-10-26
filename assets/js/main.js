@@ -76,7 +76,12 @@
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.reveal').forEach(node => revealObserver.observe(node));
+    document.querySelectorAll('.reveal').forEach(node => {
+      // If the failsafe already showed this node (slow script load), keep it visible instead
+      // of hiding it again when `reveal-ready` switches the failsafe off.
+      if (getComputedStyle(node).opacity === '1') node.classList.add('active');
+      else revealObserver.observe(node);
+    });
     html.classList.add('reveal-ready');
   });
 

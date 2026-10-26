@@ -31,33 +31,47 @@ test('normalizeRepos rejects a non-array payload (e.g. rate-limit error)', () =>
   assert.throws(() => normalizeRepos({ message: 'API rate limit exceeded' }));
 });
 
-test('snapshotWithFallback never returns data that fails validation', async () => {
-  const quiet = { warn() {} };
+function withFetch(body, fn) {
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => new Response(JSON.stringify({ items: [{ name: '', url: 'javascript:x' }] }), { status: 200 });
-  try {
-    const result = await snapshotWithFallback({
-      name: 'repos',
-      fetchLive: async () => { throw new Error('down'); },
-      validate: validateRepos,
-      log: quiet,
-    });
-    assert.equal(result.origin, 'empty'); // deployed copy was invalid → not used
-    assert.deepEqual(result.data.items, []);
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
+  globalThis.fetch = async () => new Response(JSON.stringify(body), { status: 200 });
+  return fn().finally(() => { globalThis.fetch = originalFetch; });
+}
+const quiet = { warn() {} };
+const NOW = Date.parse('2026-10-26T00:00:00.000Z');
+const down = async () => { throw new Error('down'); };
+
+test('snapshotWithFallback fails the build rather than publish invalid or empty data', async () => {
+  await withFetch({ items: [{ name: '', url: 'javascript:x' }] }, async () => {
+    await assert.rejects(
+      snapshotWithFallback({ name: 'repos', fetchLive: down, validate: validateRepos, now: NOW, log: quiet }),
+      /no valid snapshot/
+    );
+  });
 });
 
-test('snapshotWithFallback prefers a valid deployed copy over an empty list', async () => {
-  const deployed = { generatedAt: '2026-01-01T00:00:00.000Z', source: 'x', items: normalizeRepos([repo()]).items };
-  const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => new Response(JSON.stringify(deployed), { status: 200 });
-  try {
-    const result = await snapshotWithFallback({ name: 'repos', fetchLive: async () => ({ items: 'bad' }), validate: validateRepos, log: { warn() {} } });
+test('snapshotWithFallback publishes an empty list only when bootstrapping is allowed', async () => {
+  await withFetch({ items: 'bad' }, async () => {
+    const result = await snapshotWithFallback({ name: 'repos', fetchLive: down, validate: validateRepos, allowEmpty: true, now: NOW, log: quiet });
+    assert.equal(result.origin, 'empty');
+    assert.deepEqual(result.data.items, []);
+  });
+});
+
+test('snapshotWithFallback reuses a fresh, valid deployed copy', async () => {
+  const deployed = { generatedAt: '2026-10-20T00:00:00.000Z', source: 'x', items: normalizeRepos([repo()]).items };
+  await withFetch(deployed, async () => {
+    const result = await snapshotWithFallback({ name: 'repos', fetchLive: async () => ({ items: 'bad' }), validate: validateRepos, now: NOW, log: quiet });
     assert.equal(result.origin, 'deployed');
     assert.equal(result.data.items.length, 1);
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
+  });
+});
+
+test('snapshotWithFallback rejects a stale deployed copy (> 14 days)', async () => {
+  const deployed = { generatedAt: '2026-09-01T00:00:00.000Z', source: 'x', items: normalizeRepos([repo()]).items };
+  await withFetch(deployed, async () => {
+    await assert.rejects(
+      snapshotWithFallback({ name: 'repos', fetchLive: down, validate: validateRepos, now: NOW, log: quiet }),
+      /stale/
+    );
+  });
 });

@@ -36,26 +36,40 @@ export function isIsoDate(value) {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value) && !isNaN(Date.parse(value));
 }
 
-// Produce a snapshot without ever publishing invalid data:
-//   1. live source → 2. the copy currently deployed on the site → 3. an empty list.
-// The page renders a "see it on GitHub/Medium" link for an empty list.
-export async function snapshotWithFallback({ name, fetchLive, validate, log = console }) {
+export const MAX_SNAPSHOT_AGE_DAYS = 14;
+
+// Produce a snapshot without ever publishing invalid or silently degraded data:
+//   1. live source → 2. the validated copy currently deployed on the site (if < 14 days old).
+// If both fail, throw: a failed build keeps the current deployment live, which beats replacing
+// good data with an empty list. `allowEmpty` (ALLOW_EMPTY_SNAPSHOT=1) exists only to bootstrap
+// a site that has no deployed copy yet; the page then links to GitHub/Medium instead.
+export async function snapshotWithFallback({ name, fetchLive, validate, allowEmpty = false, now = Date.now(), log = console }) {
+  const problems = [];
   try {
     const data = await fetchLive();
     validate(data);
     return { data, origin: 'live' };
   } catch (err) {
-    log.warn(`::warning::${name}: live source failed (${err.message}); trying deployed copy`);
+    problems.push(`live source failed: ${err.message}`);
   }
   try {
     const res = await fetchWithTimeout(`${SITE_URL}/assets/data/${name}.json`);
     const data = await res.json();
     validate(data);
+    const ageDays = (now - Date.parse(data.generatedAt)) / 86_400_000;
+    if (!(ageDays <= MAX_SNAPSHOT_AGE_DAYS)) {
+      throw new Error(`deployed copy is stale (generatedAt ${data.generatedAt})`);
+    }
+    log.warn(`::warning::${name}: ${problems[0]}; reusing deployed copy from ${data.generatedAt}`);
     return { data, origin: 'deployed' };
   } catch (err) {
-    log.warn(`::warning::${name}: deployed copy unavailable (${err.message}); publishing an empty list`);
+    problems.push(`deployed copy unusable: ${err.message}`);
   }
-  const data = { generatedAt: new Date().toISOString(), source: null, items: [] };
+  if (!allowEmpty) {
+    throw new Error(`${name}: no valid snapshot (${problems.join('; ')}). Set ALLOW_EMPTY_SNAPSHOT=1 only to bootstrap.`);
+  }
+  log.warn(`::warning::${name}: ${problems.join('; ')}; publishing an empty list (ALLOW_EMPTY_SNAPSHOT)`);
+  const data = { generatedAt: new Date(now).toISOString(), source: null, items: [] };
   validate(data);
   return { data, origin: 'empty' };
 }

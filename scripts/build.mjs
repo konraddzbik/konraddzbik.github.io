@@ -3,6 +3,7 @@
 // GitHub token used here never shares a process with npm packages.
 //
 //   node scripts/build.mjs          # GITHUB_TOKEN is optional (raises the API rate limit)
+//   ALLOW_EMPTY_SNAPSHOT=1 node scripts/build.mjs   # offline / bootstrap only
 import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -35,13 +36,14 @@ async function main() {
   }
 
   const token = process.env.GITHUB_TOKEN || undefined;
+  const allowEmpty = process.env.ALLOW_EMPTY_SNAPSHOT === '1';
   const snapshots = [
     { name: 'articles', fetchLive: fetchArticles, validate: validateArticles },
     { name: 'repos', fetchLive: () => fetchRepos({ token }), validate: validateRepos },
   ];
   await mkdir(path.join(OUT, 'assets/data'), { recursive: true });
   for (const s of snapshots) {
-    const { data, origin } = await snapshotWithFallback(s);
+    const { data, origin } = await snapshotWithFallback({ ...s, allowEmpty });
     await writeFile(path.join(OUT, `assets/data/${s.name}.json`), JSON.stringify(data, null, 2) + '\n');
     console.log(`${s.name}: ${data.items.length} items (${origin})`);
   }

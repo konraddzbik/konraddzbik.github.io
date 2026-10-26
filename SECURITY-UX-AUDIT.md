@@ -134,7 +134,7 @@ so its 60 requests/hour/IP limit no longer applies.
 
 ## Review follow-up (PR #1 review findings)
 
-All 13 review findings were reproduced and fixed:
+All 13 review findings were reproduced and fixed, plus three raised when the reviewer re-checked the fixes:
 
 | # | Finding | Resolution |
 |---|---|---|
@@ -151,24 +151,28 @@ All 13 review findings were reproduced and fixed:
 | 11 | Bot push races and skipped CI | No bot commits any more; snapshots are validated inside the build |
 | 12 | Live, rate-limited GitHub API in the browser | Repos are snapshotted at build time with the workflow token; `connect-src 'self'` |
 | 13 | Hard-coded sitemap `lastmod` | Removed |
+| 14 | *(re-review)* An empty list could replace good data when both sources failed | The build now fails instead; stale (> 14 days) deployed copies are rejected (unit-tested) |
+| 15 | *(re-review)* A late `main.js` re-hid content the failsafe had already shown | Nodes the failsafe already revealed are marked `active` before `reveal-ready` is set (browser-tested) |
+| 16 | *(re-review)* Merging before switching the Pages source would publish the raw repo | Merge checklist: switch the Pages source to GitHub Actions **before** merging |
 
 **Build pipeline** (`.github/workflows/site.yml`, on push to `main`, daily, and on demand; PRs build
 and test only):
 
-1. `npm ci --ignore-scripts` → `npm test` (17 unit and consistency tests).
+1. `npm ci --ignore-scripts` → `npm test` (19 unit and consistency tests).
 2. `node scripts/build.mjs` copies an **explicit allow-list** of files into `_site/` and snapshots
    GitHub and Medium. It uses Node built-ins only, so no npm package code runs while the token is set.
 3. **Data integrity:** each snapshot is validated against a strict shape (https URLs on allow-listed
    hosts, length caps, ISO dates). If the live source fails or returns invalid data, the build falls
-   back to the validated copy currently deployed, then to an empty list, which renders a link to the
-   profile. Invalid data is never published.
+   back to the validated copy currently deployed, but only if it is under 14 days old. Otherwise
+   **the build fails** and the current deployment stays live: good data is never replaced with an
+   empty list or with stale data. `ALLOW_EMPTY_SNAPSHOT=1` exists only for offline or bootstrap builds.
 4. `npm run build:css` → `scripts/verify-site.mjs`, which fails on any file in `_site/` that isn't
    expected, or on invalid data or empty CSS.
 5. `deploy-pages` (deploy job only: `pages: write`, `id-token: write`).
 
 ## Maintaining it
 
-- One-time, at merge: **Settings → Pages → Source: GitHub Actions**, or
+- One-time, **right before merging this PR**: **Settings → Pages → Source: GitHub Actions**, or
   `gh api -X PUT repos/konraddzbik/konraddzbik.github.io/pages -f build_type=workflow`.
 - Local preview: `npm ci && npm run preview` (builds `_site/` and serves it on http://127.0.0.1:8000).
 - Publishing a new file? Add it to `PUBLISHED_FILES` in `scripts/build.mjs`. A test fails if
